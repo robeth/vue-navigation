@@ -1,5 +1,8 @@
 import Routes from '../routes'
-import { getKey, matches } from '../utils'
+import {
+  getKey,
+  matches
+} from '../utils'
 
 export default (keyName) => {
   return {
@@ -33,9 +36,9 @@ export default (keyName) => {
     render() {
       const vnode = this.$slots.default ? this.$slots.default[0] : null
       if (vnode) {
-        vnode.key = vnode.key || (vnode.isComment
-          ? 'comment'
-          : vnode.tag)
+        vnode.key = vnode.key || (vnode.isComment ?
+          'comment' :
+          vnode.tag)
         // prevent vue-router reuse component
         const key = getKey(this.$route, keyName)
         if (vnode.key.indexOf(key) === -1) {
@@ -54,6 +57,10 @@ export default (keyName) => {
           // cache new vnode
           this.cache[key] = vnode
         }
+        if (vnode.componentInstance && vnode.componentInstance.activated) {
+          vnode.componentInstance.activated();
+        }
+
         vnode.data.keepAlive = true
       }
       return vnode
