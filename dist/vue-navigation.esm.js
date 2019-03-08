@@ -232,6 +232,10 @@ var NavComponent = (function (keyName) {
         } else {
           this.cache[key] = vnode;
         }
+        if (vnode.componentInstance && vnode.componentInstance.activated) {
+          vnode.componentInstance.activated();
+        }
+
         vnode.data.keepAlive = true;
       }
       return vnode;
